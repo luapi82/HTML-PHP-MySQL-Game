@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script>
+function doomButton() {
+    var answer = confirm("This will delete the entire database and create a new database and tables. Are you sure?");
+	if (answer == true){
+	alert('Recreating Database Now...');
+	document.location.href = "setup.php";
+	}
+	else{
+	alert('Cancelled');
+	document.location.href = "index.html";
+	}
+}
+</script>
+</head>
+<body onLoad="doomButton()">
+<div id="footer"></div>
+<script>
+document.getElementById('footer').innerHTML = '<object type="text/html" data="footer.html"></object>';
+</script>
+</body>
+</html>

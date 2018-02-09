@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Warrior Wars - Create User</title>
+<script>
+    var pass1 = document.getElementById('password');
+    var pass2 = document.getElementById('password2');
+	var email1 = document.getElementById('email');
+    var email2 = document.getElementById('email2');
+	var user = document.getElementById('username');
+	var errors = [];
+	//Set the colors we will be using ...
+    var goodColor = "#66cc66";
+    var redColor = "#ff6666";
+
+function checkAllFields(){
+errors = [];
+if (checkEmail() == true && checkPass() == true && checkUser() == true)
+return true;
+else
+{
+	var redColor = "#ff6666";
+	document.getElementById('errors').style.color = redColor;
+	document.getElementById('errors').innerHTML = "<b>Please fix errors before continuing.</b><br>" + errors.join("<br>")
+	if (!document.getElementById('username').value)
+		document.getElementById('username').style.backgroundColor = redColor;
+	if (!document.getElementById('email').value)
+		document.getElementById('email').style.backgroundColor = redColor;
+	if (!document.getElementById('email2').value)
+		document.getElementById('email2').style.backgroundColor = redColor;
+	if (!document.getElementById('password').value)
+		document.getElementById('password').style.backgroundColor = redColor;
+	if (!document.getElementById('password2').value)
+		document.getElementById('password2').style.backgroundColor = redColor;
+	return false;
+	}
+}
+
+function checkPass()
+{
+    //Store the password field objects into variables ...
+    pass1 = document.getElementById('password');
+    pass2 = document.getElementById('password2');
+	oneNumerical = document.getElementById('oneNumerical');
+	eightCharacters = document.getElementById('eightCharacters');
+	oneLetter = document.getElementById('oneLetter');
+	//Compare the values in the password field 
+	//and the confirmation field
+	if (pass2.value.length < 8) {
+		eightCharacters.innerHTML = '<img src="./res/CheckmarkNone.gif"><font color="#ff6666">Your password must contain at least 8 characters.</font><br>';
+	}else{
+		eightCharacters.innerHTML = '<img src="./res/Checkmark.gif"><font color="#66cc66">Your password must contain at least 8 characters.</font><br>';
+	}
+	if (pass2.value.search(/[a-z]/i) < 0) {
+		oneLetter.innerHTML = '<img src="./res/CheckmarkNone.gif"><font color="#ff6666">Your password must contain at least one letter.</font><br>';
+	}else {
+		oneLetter.innerHTML = '<img src="./res/Checkmark.gif"><font color="#66cc66">Your password must contain at least one letter.</font><br>';
+	}
+	if (pass2.value.search(/[0-9]/) < 0) {
+		oneNumerical.innerHTML = '<img src="./res/CheckmarkNone.gif"><font color="#ff6666">Your password must contain at least one digit.</font><br>';
+	}else{
+		oneNumerical.innerHTML = '<img src="./res/Checkmark.gif"><font color="#66cc66">Your password must contain at least one digit.</font><br>';
+	}
+	if (pass2.value == ""){
+		//Password2 is blank
+		//Set the color to the bad color and
+		//notify the user.
+		pass1.style.backgroundColor = redColor;
+		pass2.style.backgroundColor = redColor;
+		passwordMatches.innerHTML = '<img src="./res/CheckmarkNone.gif"><font color="#ff6666">Password must not be blank!</font><br>';
+		return false;
+	}if (pass1.value != pass2.value){
+		//The passwords do not match.
+		//Set the color to the bad color and
+		//notify the user.
+		pass1.style.backgroundColor = redColor;
+		pass2.style.backgroundColor = redColor;
+		passwordMatches.innerHTML = '<img src="./res/CheckmarkNone.gif"><font color="#ff6666">Password must match.</font><br>';
+		return false;
+	}
+	if(pass1.value == pass2.value && pass2.value != ""){
+		//The passwords match. 
+		//Set the color to the good color and inform
+		//the user that they have entered the correct password 
+		pass1.style.backgroundColor = goodColor;
+		pass2.style.backgroundColor = goodColor;
+		passwordMatches.innerHTML = '<img src="./res/Checkmark.gif"><font color="#66cc66">Password must match.</font><br>';
+		if (pass2.value.length >= 8 && 'pass2.value.search(/[a-z]/i) > 0' && 'pass2.value.search(/[0-9]/) > 0'){
+			return true;
+		}
+	}
+	
+}
+
+function checkEmail()
+{
+    //Store the email field objects into variables ...
+    email1 = document.getElementById('email');
+    email2 = document.getElementById('email2');
+    //Store the confirmation Message Object ...
+    //Compare the values in the password field 
+    //and the confirmation field
+	if(email.value == email2.value && email2.value != ""){
+        //The emails match. 
+        //Set the color to the good color and inform
+        //the user that they have entered the correct password 
+        email2.style.backgroundColor = goodColor;
+        emailMatches.innerHTML = '<img src="./res/Checkmark.gif"><font color="#66cc66"> Your email must match.</font><br>';
+		var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|ca|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b/;
+		if (re.test(email2.value) == false){
+			errors.push("Please provide a proper email address.<p>"); 
+		}
+		if (errors.length > 0) {
+			return false;
+		}
+		if (errors.length == 0){
+			return true;
+		}
+    }
+	if (email2.value == ""){
+		//Email2 is blank
+        //Set the color to the bad color and
+        //notify the user.
+        email2.style.backgroundColor = redColor;
+        emailMatches.innerHTML = '<img src="./res/CheckmarkNone.gif"><font color="#ff6666"> Your email cannot be blank.</font><br>';
+		return false;
+	}
+	if (email.value != email2.value){
+        //The emails do not match.
+        //Set the color to the bad color and
+        //notify the user.
+        email2.style.backgroundColor = redColor;
+        emailMatches.innerHTML = '<img src="./res/CheckmarkNone.gif"><font color="#ff6666"> Your email must match.</font><br>';
+		return false;
+    }
+}
+function checkUser()
+{
+    //Store the password field objects into variables ...
+    user = document.getElementById('username');
+	if (user.value.length < 3){
+		//Username is less than 3 characters
+        //Set the color to the bad color and
+        //notify the user.
+        username.style.backgroundColor = redColor;
+        usernameCharacters.innerHTML = '<img src="./res/CheckmarkNone.gif"><font color="#ff6666"> Username must be at least 3 characters!</font><br>';
+		return false;
+	}
+	if (user.value.length >= 3){
+        //Username is at least 3 character
+        //Set the color to the good color and
+        //notify the user.
+        username.style.backgroundColor = goodColor;
+        usernameCharacters.innerHTML = '<img src="./res/Checkmark.gif"><font color="#66cc66"> Username must be at least 3 characters!</font><br>';
+		return true;
+    }
+}    
+</script>
+</head>
+<body>
+<center>
+<h1>Create Account</h1>
+<div id="errors"></div>
+<form action="createUser.php" onsubmit="return checkAllFields(); return false;" method="post">
+  <table>
+  <tr>
+  <td>Desired Username:<br><input type="text" name="username" id="username" onkeyup="checkUser(); return false;"> 
+  <td><div style="display:inline;" id="confirmUser"></div><br>
+  </td></td>
+  <td rowspan="4">
+  <div style="display:inline" id="usernameCharacters"><img src="./res/CheckmarkNone.gif"><font color="#ff6666"> Username must be at least 3 characters!</font><br></div>
+  <div style="display:inline" id="emailMatches"><img src="./res/CheckmarkNone.gif"><font color="#ff6666"> Your email must match.</font><br></div>
+  <div style="display:inline" id="passwordMatches"><img src="./res/CheckmarkNone.gif"><font color="#ff6666"> Your password must match.</font><br></div>
+  <div style="display:inline" id="eightCharacters"><img src="./res/CheckmarkNone.gif"><font color="#ff6666"> Your password must contain at least 8 characters.</font><br></div>
+  <div style="display:inline" id="oneLetter"><img src="./res/CheckmarkNone.gif"><font color="#ff6666"> Your password must contain at least one letter.</font><br></div>
+  <div style="display:inline" id="oneNumerical"><img src="./res/CheckmarkNone.gif"><font color="#ff6666"> Your password must contain at least one numerical digit.</font></div>
+  </td>
+  </tr>
+  <tr>
+    <td>Email Address:<br>
+  <input type="text" name="email" id="email" onkeyup="checkEmail(); return false;"><br></td>
+    <td>Confirm Email Address:<br>
+  <input type="text" name="confirmEmail" id="email2" onkeyup="checkEmail(); return false;"><br></td>
+  </tr>
+  <tr>
+  <td>Password:<br>
+  <input type="password" name="password" id="password" onkeyup="checkPass(); return false;"><br></td>
+    <td>Confirm Password:<br>
+  <input type="password" name="confirmPassword" id="password2" onkeyup="checkPass(); return false;"><br></td>
+  </tr>
+  </table>
+  <p>
+  <input type="submit" name="Submit" value="Start Playing" id="submit">
+</form>
+<p>
+<font size=2>If you are having trouble creating your account, please send me an <a href="mailto:paul@viaucs.com">email</a>.</font size=2>
+<div id="footer"></div>
+<script>
+document.getElementById('footer').innerHTML = '<object type="text/html" data="footer.html"></object>';
+</script>
+</center>
+</body>
+</html>
